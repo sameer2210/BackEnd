@@ -1,0 +1,10 @@
+Authentication = user valid or not 
+Autorization = who is user (what he will able to do )
+
+validation = data formate check 
+
+verification = data is correct or not 
+
+-------------------------------------------------------------------------------
+
+hello => func X => #hassValue

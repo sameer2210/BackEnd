@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    html , body{
+        height: 100%;
+        width: 100%;
+        font-family: 'Courier New', Courier, monospace;
+    }
+    .cards{
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    }
+    .card{
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        padding: 20px;
+        border-radius: 20px;
+        border: 1px solid black;
+        align-items: center;
+    }
+    img{
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        background-position: center;
+        background-size: cover;
+    }
+</style>    
+</head>
+<body>
+    
+    <h1>feed page</h1>
+    <main>
+        <div class="cards">
+            <% let arr = ['sam','mca','pallu','aayu'] %>
+           <% arr.forEach((username) => { %>
+                <div class="card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFVFxfeGIN-ceu1MAh1PWlG_WA-JZs7nEXPw&s" alt="">
+                    <h1><%= username %></h1>
+                </div>
+           <% })   %>
+        </div>
+    </main>
+</body>
+</html>

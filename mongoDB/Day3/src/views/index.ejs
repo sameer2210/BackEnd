@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <main class="p-4">
+        <!-- <form action="/create" method="post">
+        <input type="text" placeholder="name" name="username" id="">
+        <input type="text" placeholder="email" name="email" id="">
+        <input type="text" placeholder="password" name="password" id="">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        </form> -->
+
+
+        <form action="/create" method="POST">
+            <input type="text" name="username" placeholder="Enter Username" required>
+            <input type="email" name="email" placeholder="Enter Email" required>
+            <input type="password" name="password" placeholder="Enter Password" required>
+            <button type="submit">Create User</button>
+        </form>
+
+        <div class="border p-2">
+            <%= users.length %>
+             <% users.forEach(element => { %>
+            <li>Username:<%= element.username %></li>
+            <li>Email: <%= element.email %></li>
+            <li>Password: <%= element.password %></li>
+           
+            <hr class="mb-2">
+            <% }); %>
+          </div>
+    </main>
+    
+</body>
+</html>
