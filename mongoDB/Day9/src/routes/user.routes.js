@@ -10,23 +10,23 @@ router.get('/register', userController.registerViewController)
 /* /users/register [post] */
 router.post('/register', userController.registerUserController)
 
+router.get('/login', userController.loginViewController)
+
+router.post('/login', userController.loginUserController)
+
 
 /* /users/profile [get]   // protected*/
-
 router.get('/profile',(req,res,next) => {
     try{
         const token = req.cookies.token;
         jwt.verify(token,"node-auth-secret")
-        next()
+        // next()
+        res.render("show")
     }catch (err){
         console.log(err)
         res.send('unauthorized')
     }
-
 },userController.profileViewController)
 
-// router.get('/profile',(req,res)=>{
-//     const token = req.cookies.token
-// })
 
 module.exports = router
