@@ -1,78 +1,86 @@
-const userModel = require("../models/user.model")
-const bcrypt = require("bcryptjs")
-const jwt = require("jsonwebtoken")
+const userModel = require("../models/user.model");
+const postModel = require("../models/post.model")
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 module.exports.registerViewController = (req, res) => {
-    res.render('register')
-}
-
+  res.render("register");
+};
 
 module.exports.registerUserController = async (req, res) => {
+  const { username, email, profileImage, password } = req.body;
 
-    const { username, email, profileImage, password } = req.body
+  const hashPassword = await bcrypt.hash(password, 10);
 
-    const hashPassword = await bcrypt.hash(password, 10)
+  const user = await userModel.create({
+    username,
+    email,
+    profileImage,
+    password: hashPassword
+  });
 
-    const user = await userModel.create({
-        username,
-        email,
-        profileImage,
-        password: hashPassword
-    })
+  const token = jwt.sign(
+    {
+      id: user._id,
+      email: user.email
+    },
+    "node-auth-secret"
+  );
 
-    const token = jwt.sign({
-        id: user._id,
-        email: user.email
-    }, "node-auth-secret")
+  res.cookie("token", token);
 
-
-    res.cookie("token", token)
-
-    res.status(201).json({
-        user, token
-    })
-}
-
+  res.status(201).json({
+    user,
+    token
+  });
+};
 
 module.exports.loginViewController = (req, res) => {
-    res.render('login')
-}
+  res.render("login");
+};
 
 module.exports.loginUserController = async (req, res) => {
+  const { email, password } = req.body;
 
-    const { email, password } = req.body
+  const user = await userModel.findOne({
+    email
+  });
 
-    const user = await userModel.findOne({
-        email
-    })
+  if (!user) {
+    return res.status(400).json({
+      message: "user not found"
+    });
+  }
 
-    if (!user) {
-        return res.status(400).json({
-            message: "user not found"
-        })
-    }
+  const isMatch = await bcrypt.compare(password, user.password);
 
-    const isMatch = await bcrypt.compare(password, user.password)
+  if (!isMatch) {
+    return res.status(400).json({
+      message: "invalid credentials"
+    });
+  }
 
-    if (!isMatch) {
-        return res.status(400).json({
-            message: "invalid credentials"
-        })
-    }
+  const token = jwt.sign(
+    {
+      id: user._id,
+      email: user.email
+    },
+    "node-auth-secret"
+  );
 
-    const token = jwt.sign({
-        id: user._id,
-        email: user.email
-    }, "node-auth-secret")
+  res.cookie("token", token);
 
-    res.cookie("token", token)
+  res.send({
+    user,
+    token
+  });
+};
 
-    res.send({
-        user,
-        token
-    })
-}
+module.exports.profileViewController = () => {};
+module.exports.feedViewController = async (req, res) => {
+  const posts = await postModel.find().populate("author");
 
-module.exports.profileViewController = ()=> {
+  console.log(posts);
 
-}
+  res.render("feed", { posts });
+};
