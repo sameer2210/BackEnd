@@ -1,21 +1,33 @@
-const postModel = require("../models/post.model")
+const postModel = require("../models/post.model");
+const userModel = require("../models/user.model");
 
 module.exports.createPostView = (req, res) => {
-    res.render("create-post")
-}
-
+  res.render("create-post");
+};
 
 module.exports.createPost = async (req, res) => {
-    const { media, caption } = req.body
+  const { media, caption } = req.body;
 
-    console.log(req.user)
+  console.log(req.user);
 
-    const post = await postModel.create({
-        media,
-        caption,
-        author:req.user.id
-    })
+  const post = await postModel.create({
+    media,
+    caption,
+    author: req.user.id
+  });
 
-    // res.send(post)
-    res.redirect("/users/feed")
-}
+  const updated = await userModel.findOneAndUpdate(
+    {
+      _id: req.user.id
+    },
+    {
+      $push: {
+        posts: post._id
+      }
+    }
+  );
+
+  console.log(updated);
+  // res.send(post)
+  res.redirect("/users/feed");
+};
