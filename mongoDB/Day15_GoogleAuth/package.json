@@ -1,5 +1,5 @@
 {
-  "name": "cloud",
+  "name": "day15_googleauth",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
@@ -10,9 +10,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "dotenv": "^16.4.7",
+    "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
-    "express": "^4.21.2",
+    "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0"
